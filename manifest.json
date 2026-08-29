@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "nerdyworm.easyeffects-presets",
   "name": "EasyEffects Presets",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": "Benjamin Rhodes",
   "description": "Switch EasyEffects output presets from the Omarchy bar",
   "kinds": [

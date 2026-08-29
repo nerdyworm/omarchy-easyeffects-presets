@@ -52,6 +52,18 @@ Or update all Git-managed plugins:
 omarchy plugin update --all
 ```
 
+## Remove
+
+Remove the plugin from Omarchy:
+
+```bash
+omarchy plugin remove nerdyworm.easyeffects-presets
+```
+
+This does not delete your EasyEffects presets. If the plugin disabled an
+autoload rule, restore it using the instructions below before removing the
+plugin.
+
 ## Usage
 
 - Left-click the bar widget to open the preset list.
