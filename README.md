@@ -8,7 +8,7 @@ The widget reads presets from EasyEffects, shows the active preset in the bar, a
 
 ## Features
 
-- Left-click to open a searchable-style preset panel
+- Left-click to open the preset list
 - Right-click to cycle through presets
 - Keyboard navigation inside the panel
 - Live active-preset detection
@@ -24,14 +24,32 @@ The widget reads presets from EasyEffects, shows the active preset in the bar, a
 
 ## Install
 
+Review the repository, then add the plugin:
+
 ```bash
-omarchy plugin add https://github.com/nerdyworm/omarchy-easyeffects-presets.git --enable
+omarchy plugin add https://github.com/nerdyworm/omarchy-easyeffects-presets.git
 ```
 
-If the widget does not appear immediately, restart the shell:
+Accept the prompt to enable the plugin during installation.
+
+For an unattended install from a repository you already trust:
 
 ```bash
-omarchy restart shell
+omarchy plugin add https://github.com/nerdyworm/omarchy-easyeffects-presets.git --enable --yes
+```
+
+## Update
+
+Review and install the next update:
+
+```bash
+omarchy plugin update nerdyworm.easyeffects-presets
+```
+
+Or update all Git-managed plugins:
+
+```bash
+omarchy plugin update --all
 ```
 
 ## Usage
@@ -61,7 +79,21 @@ The rule is preserved rather than deleted. To restore it, move the JSON file bac
 ~/.local/share/easyeffects/autoload/output
 ```
 
-## Development
+## Security and behavior
+
+This plugin runs unsandboxed inside `omarchy-shell` when enabled. Review its source before installing it.
+
+The plugin:
+
+- Runs `easyeffects` to read and load output presets.
+- Runs local shell tools to find presets and manage autoload rules.
+- Reads EasyEffects preset, state, and autoload files in your home directory.
+- Writes a local switch log under `~/.local/state/omarchy/easyeffects-presets`.
+- Moves a matching autoload rule to the backup directory described above.
+- Provides local IPC methods for status, preset selection, and cycling.
+- Does not use the network or start a background service.
+
+## Validate from source
 
 Validate the plugin with:
 
