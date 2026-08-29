@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "id": "nerdyworm.easyeffects-presets",
+  "name": "EasyEffects Presets",
+  "version": "1.0.0",
+  "author": "Benjamin Rhodes",
+  "description": "Switch EasyEffects output presets from the Omarchy bar",
+  "kinds": [
+    "bar-widget"
+  ],
+  "entryPoints": {
+    "barWidget": "BarWidget.qml"
+  },
+  "barWidget": {
+    "displayName": "EasyEffects Presets",
+    "description": "Switch EasyEffects output presets",
+    "category": "Audio",
+    "allowMultiple": false,
+    "defaultSection": "right"
+  }
+}

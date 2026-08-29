@@ -1,0 +1,46 @@
+#!/bin/bash
+
+set -euo pipefail
+
+preset_name="${1:-}"
+preset_dir="$HOME/.local/share/easyeffects/output"
+autoload_dir="$HOME/.local/share/easyeffects/autoload/output"
+autoload_archive="$HOME/.local/state/omarchy/easyeffects-presets/autoload-disabled"
+state_file="$HOME/.config/easyeffects/db/easyeffectsrc"
+trace_dir="$HOME/.local/state/omarchy/easyeffects-presets"
+trace_file="$trace_dir/switch.log"
+
+[[ -n $preset_name && -f "$preset_dir/$preset_name.json" ]] || {
+  echo "Unknown EasyEffects output preset: $preset_name" >&2
+  exit 2
+}
+
+mkdir -p "$trace_dir"
+printf '%s request preset=%s pid=%s parent=%s\n' "$(date --iso-8601=seconds)" "$preset_name" "$$" "$PPID" >>"$trace_file"
+
+output_device=""
+if [[ -f $state_file ]]; then
+  output_device=$(awk -F= '$1 == "outputDevice" { print substr($0, index($0, "=") + 1); exit }' "$state_file")
+fi
+
+if [[ -n $output_device && -d $autoload_dir ]]; then
+  shopt -s nullglob
+  for autoload_file in "$autoload_dir"/*.json; do
+    [[ $(jq -r '.device // empty' "$autoload_file") == "$output_device" ]] || continue
+
+    mkdir -p "$autoload_archive"
+    archive_name=$(basename "$autoload_file")
+    if [[ -e "$autoload_archive/$archive_name" ]]; then
+      archive_name="${archive_name%.json}-$(date +%s).json"
+    fi
+    mv "$autoload_file" "$autoload_archive/$archive_name"
+  done
+fi
+
+if easyeffects --load-preset "$preset_name"; then
+  printf '%s loaded preset=%s\n' "$(date --iso-8601=seconds)" "$preset_name" >>"$trace_file"
+  exit 0
+fi
+
+printf '%s failed preset=%s\n' "$(date --iso-8601=seconds)" "$preset_name" >>"$trace_file"
+exit 1
