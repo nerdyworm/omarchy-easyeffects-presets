@@ -4,7 +4,7 @@ A small Omarchy bar widget for switching between your EasyEffects output presets
 
 The widget reads presets from EasyEffects, shows the active preset in the bar, and verifies changes against the running EasyEffects process so the displayed state stays accurate.
 
-![EasyEffects Presets widget open in the Omarchy bar](assets/easyeffects-presets.png)
+![EasyEffects Presets widget open in the Omarchy bar](preview.png)
 
 ## Features
 
